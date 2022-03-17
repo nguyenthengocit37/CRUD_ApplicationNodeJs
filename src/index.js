@@ -18,7 +18,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 //HTTP Logger
-          app.use(morgan('combined'));
+app.use(morgan('combined'));
 
 //Templates Engine
 app.engine('hbs', handlebars.engine({ extname: '.hbs' }));
@@ -26,7 +26,7 @@ app.engine('hbs', handlebars.engine({ extname: '.hbs' }));
 app.set('views', path.join(__dirname, 'resources', 'views'));
 
 //Route init
-        routes(app);
+routes(app);
 
 //Create Web Sever
 app.listen(port, () => {
