@@ -5,11 +5,13 @@ const morgan = require("morgan");
 const path = require("path");
 const port = 3000;
 
+// Static Path
+app.use(express.static(path.join(__dirname,"public")));
+
 //HTTP Logger
 app.use(morgan("combined"));
 
 //Templates Engine
-
 app.engine('hbs', handlebars.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
