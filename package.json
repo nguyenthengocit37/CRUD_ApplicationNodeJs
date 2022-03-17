@@ -4,19 +4,29 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --inspect src/index.js",
-    "watch":"node-sass --watch src/resources/scss/ --output src/public/css/",
+    "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
+    "beautiful":"lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "the ngoc",
   "license": "ISC",
   "description": "",
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --tab-width 4 --trailing-comma all --write"
+  },
+  "hooks": {
+    "pre-commit": "lint-staged"
+  },
   "dependencies": {
     "express": "^4.17.3",
     "express-handlebars": "^6.0.3"
   },
   "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.6",
     "morgan": "^1.10.0",
     "node-sass": "^7.0.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.0"
   }
 }

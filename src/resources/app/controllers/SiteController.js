@@ -1,13 +1,11 @@
-class SiteController{
-
+class SiteController {
     //[GET] /shop
 
     index(req, res) {
-        res.render("home");
+        res.render('home');
     }
     show(req, res) {
-        res.render("search");
+        res.render('search');
     }
-
 }
-module.exports = new SiteController;
+module.exports = new SiteController();
