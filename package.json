@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon --inspect src/index.js",
     "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
-    "beautiful":"lint-staged",
+    "beautiful": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "the ngoc",
@@ -14,14 +14,20 @@
   "lint-staged": {
     "src/**/*.{js,json,scss}": "prettier --single-quote --tab-width 4 --trailing-comma all --write"
   },
-  "husky":{
+  "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "express": "^4.17.3",
-    "express-handlebars": "^6.0.3"
+    "express-handlebars": "^6.0.3",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.7",
+    "mongoose-slug-generator": "^1.0.4",
+    "multer": "^1.4.4"
   },
   "devDependencies": {
     "husky": "^7.0.4",

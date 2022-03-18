@@ -1,1 +1,22 @@
-<h1>Homeee</h1>
+<div class="mt-4">
+    <div class="container">
+        <div class="row">
+            {{#each product}}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card card-product" style="width: 18rem;">
+                        <a href="/product/{{this.slug}}">
+                    <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
+                        </a>
+                    <div class="card-body">
+                        <a href="/product/{{this.slug}}">
+                        <h5 class="card-title">{{this.name}}</h5>
+                        </a>
+                        <p class="card-text">{{this.price}}</p>
+                        <a href="#" class="btn btn-primary">Liên Hệ</a>
+                    </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
