@@ -29,8 +29,12 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 router.get('/create', shopController.create);
 router.get('/list', shopController.list);
+router.get('/trash', shopController.trash);
+router.patch('/restore/:id', shopController.restore);
 router.put('/update/:id',upload.single('image_input'),shopController.update);
 router.get('/edit/:id', shopController.edit);
+router.delete('/:id', shopController.destroy);
+router.delete('/force/:id', shopController.forceDestroy);
 router.post('/store',upload.single('image_input'), shopController.store);
 router.get('/:slug', shopController.show);
 

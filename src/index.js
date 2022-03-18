@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 const routes = require('./routes');
 const db = require('./config/db');
 const methodOverride = require('method-override');
+
 //Format Time
 const moment = require('moment');
 
@@ -36,7 +37,7 @@ app.engine('hbs', handlebars.engine({
      // Created Function Handlers Templates Engine
      helpers: {
         sum: (a,b) => a + b,
-        formatDate: (date) => moment(date).format('DD-MM-YYYY'),
+        formatDate: (date) => moment(date).format('DD-MM-YYYY , HH:mm:ss A'),
     },
     }));
 app.set('view engine', 'hbs');

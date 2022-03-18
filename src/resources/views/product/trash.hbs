@@ -1,8 +1,8 @@
 <div class="container mt-5">
   <div class="title">
-    <h2>Danh sách sản phẩm</h2>
+    <h2>Danh sách sản phẩm đã xóa</h2>
     <div class="trash">
-    <a href="/product/trash" class="btn btn-primary ml-auto mb-3">Thùng rác ({{countDeleted}})</a>
+    <a href="/product/list" class="btn btn-primary ml-auto mb-3">Quay Lại</a>
     </div>
   </div>
     <table class="table">
@@ -11,7 +11,7 @@
       <th scope="col">#</th>
       <th scope="col">Tên</th>
       <th scope="col">Giá</th>
-      <th scope="col">Thời Gian Tạo</th>
+      <th scope="col">Thời Gian Xoá</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -21,18 +21,17 @@
               <th scope="row"> {{ sum @index 1}}</th>
               <td>{{this.name}}</td>
               <td>{{this.price}}</td>
-              <td>{{formatDate this.createdAt}}</td>
+              <td>{{formatDate this.deletedAt}}</td>
               <td>
-                  <a href="/product/edit/{{this._id}}" class="btn btn-primary">Sửa</a>
+                  <a class="btn btn-primary restoreProduct text-light" data-id="{{this._id}}"> Khôi Phục </a>
                   <!-- Button trigger modal Delete -->
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteConfirm" data-id="{{this._id}}"> Xóa </button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteConfirm" data-id="{{this._id}}"> Xóa Vĩnh Viễn </button>
               </td>
             </tr>
             {{else}}
             <tr>
               <td colspan="5" class="text-center">
-                Bạn chưa thêm sản phẩm nào !
-                <a href="/product/create">Thêm sản phẩm</a>
+                Thùng rác trống
               </td>
             </tr>
       {{/each}}
@@ -51,10 +50,10 @@
         </button>
       </div>
       <div class="modal-body">
-        Bạn chắc chắn muốn xóa sản phẩm này ?
+        Bạn chắc chắn muốn xóa sản phẩm này vĩnh viễn ?
       </div>
       <div class="modal-footer">
-        <button type="button" id="btn-delete-product" class="btn btn-danger">Delete</button>
+        <button type="button" id="btn-delete-product" class="btn btn-danger">Xóa Vĩnh Viễn</button>
         <button type="button" class="btn btn-gray" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -64,19 +63,32 @@
 <!-- Fake Form Delete -->
 <form id="formDelete" method="post"></form>
 
+<!--Form restoreProduct -->
+<form id="formRestore" method="post"></form>
+
 <script>
   //Content Loaded
   document.addEventListener("DOMContentLoaded",()=>{
+    
+    //Restore Product
+    let restoreProduct = $('.restoreProduct');
+    let restoreForm = document.forms['formRestore'];
+    restoreProduct.click(function(e){
+      e.preventDefault();
+      let idRestore = $(this).data('id');
+      restoreForm.action = '/product/restore/'+idRestore+'?_method=PATCH';
+      restoreForm.submit();
+    })
     //Click button delete
     $('#deleteConfirm').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget);
     let id = button.data('id');
     let btnDeleteProduct = document.querySelector('#btn-delete-product');
     let deleteForm = document.forms['formDelete'];
-    
+   
     // Assert Delete 
     btnDeleteProduct.onclick = () =>{
-       deleteForm.action = '/product/'+id+'?_method=DELETE';
+       deleteForm.action = '/product/force/'+id+'?_method=DELETE';
        deleteForm.submit();
     };
     });

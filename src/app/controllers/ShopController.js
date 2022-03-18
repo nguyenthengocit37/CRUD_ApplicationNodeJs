@@ -19,7 +19,7 @@ class ShopController {
     }
     //[POST] /product/store
     store(req, res, next) {
-        const formData = req.body;
+        const formData = {...req.body};
         formData.image = req.file.filename;
         const product = new Product(formData);
         product.save()
@@ -32,13 +32,14 @@ class ShopController {
     }
     //[GET] /product/list
     list(req, res, next) {
-        Product.find({})
-        .then(product => {
+
+        Promise.all([ Product.find({}),Product.countDocumentsDeleted()])
+        .then(([product,countDeleted])=>{
             res.render('product/list',{
+                countDeleted,
                 product: mutipleMongooesToObjects(product)
             });
-        })
-        .catch(next);
+        });
     }
     //[GET] /product/edit/:_id
     edit(req, res, next) {
@@ -49,11 +50,45 @@ class ShopController {
     }
     //[PUT] /product/:id
     update(req, res, next) {
-        const formData = req.body;
+        const formData = {...req.body};
         formData.image = req.file.filename;
-        Product.updateOne({id:req.params.id},formData)
+        Product.updateOne({_id:req.params.id},formData)
         .then(() => {
             res.redirect('/product/list');
+        })
+        .catch(next);
+    }
+    //[PUT] /product/:id
+    destroy(req, res, next) {
+        Product.delete({_id:req.params.id})
+        .then(()=>{
+            res.redirect('back');
+        })
+        .catch(next);
+    }
+    //[GET] /product/trash
+    trash(req, res, next) {
+        Product.findDeleted({})
+        .then(product => {
+            res.render('product/trash',{
+                product: mutipleMongooesToObjects(product)
+            });
+        })
+        .catch(next);
+    }
+    //[PATCH] /product/restore/:id
+    restore(req, res, next) {
+        Product.restore({_id:req.params.id})
+        .then(()=>{
+            res.redirect('back');
+        })
+        .catch(next);
+    }
+    //[DELETE] /product/force/:id
+    forceDestroy(req, res, next) {
+        Product.deleteOne({_id:req.params.id})
+        .then(()=>{
+            res.redirect('back');
         })
         .catch(next);
     }
