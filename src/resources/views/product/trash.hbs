@@ -1,8 +1,22 @@
-<div class="container mt-5">
+<form id ="form-container" class="container mt-5" method="POST" action="/product/trash/handle-actions">
   <div class="title">
     <h2>Danh sách sản phẩm đã xóa</h2>
     <div class="trash">
     <a href="/product/list" class="btn btn-primary ml-auto mb-3">Quay Lại</a>
+    </div>
+    <div class="form-check d-flex align-items-center mb-3">
+      <input type="checkbox" class="form-check-input" id="checkbox-select-all">
+      <label class="form-check-label" for="checkbox-select-all">Chọn tất cả</label>
+      <div class="input-group ml-3">
+        <select class="custom-select" name="action" id="select-action" required>
+          <option value="">Action</option>
+          <option value="destroy">Delete</option>
+          <option value="restore">Restore</option>
+        </select>
+        <div class="input-group-append">
+          <button id="btn-submit-action" type="submit" class="btn btn-primary" disabled>Submit</button>
+        </div>
+      </div>
     </div>
   </div>
     <table class="table">
@@ -18,6 +32,7 @@
   <tbody>
       {{#each product}}
             <tr>
+              <td><input type="checkbox" class="form-check-input " name="productsId[]" value="{{this._id}}"></td>
               <th scope="row"> {{ sum @index 1}}</th>
               <td>{{this.name}}</td>
               <td>{{this.price}}</td>
@@ -37,7 +52,7 @@
       {{/each}}
   </tbody>
 </table>
-</div>
+</form>
 
 <!-- Modal Comfirm Delete -->
 <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,6 +74,28 @@
     </div>
   </div>
 </div>
+<!-- Hidden Button Destroy-->
+<button id="btn-destroy" type="button" class="btn btn-primary" data-toggle="modal" data-target="#Destroy-Confirm" hidden > Xóa Vĩnh Viễn </button>
+<!-- Modal Comfirm Destroy -->
+<div class="modal fade" id="Destroy-Confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xoá Sản Phẩm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn chắc chắn muốn xóa sản phẩm vĩnh viễn ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-destroy-product" class="btn btn-danger">Xóa Vĩnh Viễn</button>
+        <button type="button" class="btn btn-gray" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Fake Form Delete -->
 <form id="formDelete" method="post"></form>
@@ -69,7 +106,49 @@
 <script>
   //Content Loaded
   document.addEventListener("DOMContentLoaded",()=>{
-    
+    //Handle destroy event
+    let formContainer = $('#form-container');
+    let selectAction = $('#select-action');
+    let btnDestroy = $('#btn-destroy');
+    let btnConfirm = $('#btn-destroy-product');
+    formContainer.submit(function(e){
+      let formMain = this;
+      if(selectAction.val() == "destroy"){
+        e.preventDefault();
+        btnDestroy.click();
+        btnConfirm.click(function(e){
+          formMain.submit();
+        });
+      }
+
+    })
+    //Handle checkbox changed
+    let checkBoxItems = $('input[name="productsId[]"]');
+    let checkBoxAll = $('#checkbox-select-all');
+    //Handle checked all changed
+    checkBoxAll.change(function() {
+        let isChecked = $(this).prop('checked');
+        checkBoxItems.prop('checked',isChecked);
+        renderExecBtn()
+    });
+    //Handle checkbox items changed
+    checkBoxItems.change(function() {
+        let isChecked = checkBoxItems.length === $('input[name="productsId[]"]:checked').length;
+        checkBoxAll.prop('checked',isChecked);
+        renderExecBtn()
+    });
+    //Handle Render Check submit
+    function renderExecBtn(){
+        let countChecked = checkBoxItems.filter(':checked').length;
+        let btnSubmit = $('#btn-submit-action');
+        if(countChecked > 0){
+            btnSubmit.attr('disabled',false);
+        }else{
+            btnSubmit.attr('disabled',true);
+        }
+    }
+
+
     //Restore Product
     let restoreProduct = $('.restoreProduct');
     let restoreForm = document.forms['formRestore'];

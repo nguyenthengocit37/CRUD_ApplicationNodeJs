@@ -29,7 +29,9 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 router.get('/create', shopController.create);
 router.get('/list', shopController.list);
+router.post('/handle-form-actions', shopController.handleFormAction);
 router.get('/trash', shopController.trash);
+router.post('/trash/handle-actions', shopController.handleActions);
 router.patch('/restore/:id', shopController.restore);
 router.put('/update/:id',upload.single('image_input'),shopController.update);
 router.get('/edit/:id', shopController.edit);

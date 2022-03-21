@@ -1,4 +1,4 @@
-<form class="container mt-5" method="POST" action="">
+<form class="container mt-5" method="POST" action="/product/handle-form-actions">
   <div class="title">
     <h2>Danh sách sản phẩm</h2>
     <div class="trash">
@@ -10,9 +10,7 @@
       <div class="input-group ml-3">
         <select class="custom-select" name="action" required>
           <option value="">Action</option>
-          <option value="del">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option value="delete">Delete</option>
         </select>
         <div class="input-group-append">
           <button id="btn-submit-action" type="submit" class="btn btn-primary" disabled>Submit</button>
@@ -95,7 +93,7 @@
     });
     //Handle checkbox items changed
     checkBoxItems.change(function() {
-        let isChecked = $(this).filter(':checked').length === $('input[name="select-items"]').length;
+        let isChecked = checkBoxItems.length === $('input[name="productsId[]"]:checked').length;
         checkBoxAll.prop('checked',isChecked);
         renderExecBtn()
     });

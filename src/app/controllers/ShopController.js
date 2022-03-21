@@ -92,6 +92,45 @@ class ShopController {
         })
         .catch(next);
     }
+    //[POST] /product/handle-form-actions
+    handleFormAction(req, res, next) {
+        switch(req.body.action) {
+            case 'delete':
+                Product.delete({_id : { $in : req.body.productsId}})
+                .then(()=>{
+                    res.redirect('back');
+                })
+                .catch(next);
+                break;
+            default:
+                res.send(404);
+                break;
+
+        }
+    }
+    //[POST] /product/trash/handle-actions
+    handleActions(req, res, next){
+        switch(req.body.action) {
+             case 'destroy':
+                Product.deleteOne({_id : { $in : req.body.productsId}})
+                .then(()=>{
+                    res.redirect('back');
+                })
+                .catch(next);
+                break;
+            case 'restore':
+                Product.restore({_id:{ $in : req.body.productsId}})
+                .then(()=>{
+                    res.redirect('back');
+                })
+                .catch(next);
+                break;
+            default:
+                res.send(404);
+                break;
+
+        }
+    }
 }
 
 
