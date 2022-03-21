@@ -8,15 +8,15 @@
             <form method="POST" action="/product/update/{{product._id}}?_method=PUT" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name_input">Name</label>
-                    <input type="text" class="form-control" name="name" id="name_input"  value="{{product.name}}" placeholder="Enter name">
+                    <input type="text" class="form-control" name="name" id="name_input"  value="{{product.name}}" placeholder="Enter name" required>
                 </div>
                 <div class="form-group">
                     <label for="price_input">Price</label>
-                    <input type="number" class="form-control" name="price" value="{{product.price}}"  placeholder="Enter price">
+                    <input type="number" class="form-control" name="price" value="{{product.price}}"  placeholder="Enter price" required>
                 </div>
                  <div class="form-group">
                         <label for="exampleFormControlFile1">Add image</label>
-                        <input type="file" class="form-control-file" name="image_input">
+                        <input type="file" class="form-control-file" name="image_input" required>
                     </div>
                 <button type="submit" class="btn btn-primary ml-auto">Update</button>
              

@@ -1,14 +1,29 @@
-<div class="container mt-5">
+<form class="container mt-5" method="POST" action="">
   <div class="title">
     <h2>Danh sách sản phẩm</h2>
     <div class="trash">
     <a href="/product/trash" class="btn btn-primary ml-auto mb-3">Thùng rác ({{countDeleted}})</a>
     </div>
+    <div class="form-check d-flex align-items-center mb-3">
+      <input type="checkbox" class="form-check-input" id="checkbox-select-all">
+      <label class="form-check-label" for="checkbox-select-all">Chọn tất cả</label>
+      <div class="input-group ml-3">
+        <select class="custom-select" name="action" required>
+          <option value="">Action</option>
+          <option value="del">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <div class="input-group-append">
+          <button id="btn-submit-action" type="submit" class="btn btn-primary" disabled>Submit</button>
+        </div>
+      </div>
+    </div>
   </div>
     <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col" colspan="2">#</th>
       <th scope="col">Tên</th>
       <th scope="col">Giá</th>
       <th scope="col">Thời Gian Tạo</th>
@@ -18,6 +33,7 @@
   <tbody>
       {{#each product}}
             <tr>
+              <td><input type="checkbox" class="form-check-input " name="productsId[]" value="{{this._id}}"></td>
               <th scope="row"> {{ sum @index 1}}</th>
               <td>{{this.name}}</td>
               <td>{{this.price}}</td>
@@ -38,7 +54,7 @@
       {{/each}}
   </tbody>
 </table>
-</div>
+</form>
 
 <!-- Modal Comfirm Delete -->
 <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -67,6 +83,35 @@
 <script>
   //Content Loaded
   document.addEventListener("DOMContentLoaded",()=>{
+    
+    //Handle checkbox changed
+    let checkBoxItems = $('input[name="productsId[]"]');
+    let checkBoxAll = $('#checkbox-select-all');
+    //Handle checked all changed
+    checkBoxAll.change(function() {
+        let isChecked = $(this).prop('checked');
+        checkBoxItems.prop('checked',isChecked);
+        renderExecBtn()
+    });
+    //Handle checkbox items changed
+    checkBoxItems.change(function() {
+        let isChecked = $(this).filter(':checked').length === $('input[name="select-items"]').length;
+        checkBoxAll.prop('checked',isChecked);
+        renderExecBtn()
+    });
+    //Handle Render Check submit
+    function renderExecBtn(){
+        let countChecked = checkBoxItems.filter(':checked').length;
+        let btnSubmit = $('#btn-submit-action');
+        if(countChecked > 0){
+            btnSubmit.attr('disabled',false);
+        }else{
+            btnSubmit.attr('disabled',true);
+        }
+    }
+
+
+
     //Click button delete
     $('#deleteConfirm').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget);
