@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "6232e6e2c57794da4b76d9f9"
+  },
+  "name": "Khung Stream Hiệu Ứng Huy MonKey",
+  "price": 12,
+  "image": "image_input-1647843402403.png",
+  "slug": "huy-monkey",
+  "updatedAt": {
+    "$date": "2022-03-21T06:16:42.405Z"
+  },
+  "deleted": false,
+  "deletedAt": {
+    "$date": "2022-03-21T05:48:47.884Z"
+  }
+},{
+  "_id": {
+    "$oid": "6232e784c57794da4b76d9fb"
+  },
+  "name": "Khung Stream Hiệu Ứng LOFIG",
+  "price": 350,
+  "image": "image_input-1647843373633.png",
+  "slug": "lofig",
+  "deleted": false,
+  "deletedAt": {
+    "$date": "2022-03-21T05:48:47.884Z"
+  },
+  "updatedAt": {
+    "$date": "2022-03-21T06:16:13.639Z"
+  }
+},{
+  "_id": {
+    "$oid": "6232e7c5c57794da4b76d9fc"
+  },
+  "name": "Khung stream hiệu ứng Pafchow",
+  "price": 400,
+  "image": "image_input-1647843381802.png",
+  "slug": "pafchow",
+  "deleted": false,
+  "deletedAt": {
+    "$date": "2022-03-21T05:48:47.884Z"
+  },
+  "updatedAt": {
+    "$date": "2022-03-21T06:16:21.804Z"
+  }
+},{
+  "_id": {
+    "$oid": "6232e7dcc57794da4b76d9fd"
+  },
+  "name": "Khung stream hiệu ứng NAX Gaming",
+  "price": 250,
+  "image": "image_input-1647843389718.png",
+  "slug": "nax-gaming",
+  "deleted": false,
+  "deletedAt": {
+    "$date": "2022-03-21T05:48:47.884Z"
+  },
+  "updatedAt": {
+    "$date": "2022-03-21T06:16:29.720Z"
+  }
+}]
