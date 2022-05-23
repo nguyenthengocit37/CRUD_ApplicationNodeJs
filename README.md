@@ -1,5 +1,3 @@
 # TrainingNodeJs
 Start app :
-npm install,
-npm run watch
-and npm start
+npm i and npm start
